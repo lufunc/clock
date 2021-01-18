@@ -7,9 +7,12 @@
       <div class="timer_inner">
         <clock :num="num2"></clock>
       </div>
+      <div class="timer_inner">
+        <clock :num="num3"></clock>
+      </div>
     </div>
-    <div @click="ttt">设置</div>
-    <div>{{num1}}</div>
+    <div style="color:#fff;" @click="ttt">设置</div>
+    <div style="color:#fff;">{{num1}}</div>
   </div>
 </template>
 
@@ -23,8 +26,9 @@ export default {
       // clock content
       ampm: true,
       zero: false,
-      num1: 0,
+      num1: 11,
       num2: 0,
+      num3: 0,
       // config
       // 12h 24h 024h
       hourFormat: 0,
@@ -39,11 +43,12 @@ export default {
       let s = t.getSeconds()
       return {h,m,s}
     }
-    // let timer = setInterval(() => {
-    //   let res = gettimer()
-    //   data.num1 = res.m
-    //   data.num2 = res.s
-    // }, 200);
+    let timer = setInterval(() => {
+      let res = gettimer()
+      data.num1 = res.h
+      data.num2 = res.m
+      data.num3 = res.s
+    }, 200);
     const ttt = () => {
       console.log('设置time1')
       data.num1++
@@ -67,15 +72,22 @@ body{
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: burlywood;
+  background-color: #000;
 }
 .timer{
   display: flex;
+  margin-top: calc(50vh - 16.7vw);
 }
 .timer_inner{
   box-sizing: border-box;
-  width: 50vw;
-  height: 50vw;
-  padding: 6vw;
+  width: 33.3vw;
+  height: 33.3vw;
+  padding: 1vw;
+  &:first-child{
+    padding-left: 2vw;
+  }
+  &:last-child{
+    padding-right: 2vw;
+  }
 }
 </style>

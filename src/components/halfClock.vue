@@ -30,6 +30,7 @@ export default {
 .half_inner{
   position: relative;
   height: 200%;
+  border-radius: 8%;
   background: linear-gradient(to bottom, #161616, #0c0c0c);
 }
 .btmpart{
@@ -52,8 +53,8 @@ export default {
   top: 50%;
   transform: translateY(-50%);
   width: 100%;
-  height: 2vw;
-  background-color: chocolate;
+  height: 0.55vw;
+  background-color: #000;
 }
 .ampm{
   position: absolute;
