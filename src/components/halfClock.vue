@@ -41,7 +41,6 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  font-size: 28vw;
   font-weight: bold;
   text-align: center;
   background: linear-gradient(to bottom, #bbbbbb, #b9b9b9);

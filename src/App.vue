@@ -1,18 +1,20 @@
 <template>
   <div class="bg">
     <div class="timer">
-      <div class="timer_inner">
-        <clock :num="num1" :ampm="ampm"></clock>
+      <div :class="[showSecond?'timer_inner3':'timer_inner2']">
+        <clock :num="num1" :ampm="hourFormat === 0"></clock>
       </div>
-      <div class="timer_inner">
+      <div :class="[showSecond?'timer_inner3':'timer_inner2']">
         <clock :num="num2"></clock>
       </div>
-      <div class="timer_inner">
+      <div v-if="showSecond" :class="[showSecond?'timer_inner3':'timer_inner2']">
         <clock :num="num3"></clock>
       </div>
     </div>
-    <div style="color:#fff;" @click="ttt">设置</div>
-    <div style="color:#fff;">{{num1}}</div>
+    <div style="position: fixed;bottom: 8%;right: 8%;">
+      <div style="color:#fff;" @click="ttt">设置</div>
+      <div style="color:#fff;">{{num1}}</div>
+    </div>
   </div>
 </template>
 
@@ -24,8 +26,6 @@ export default {
   setup () {
     const data = reactive({
       // clock content
-      ampm: true,
-      zero: false,
       num1: 11,
       num2: 0,
       num3: 0,
@@ -34,8 +34,20 @@ export default {
       hourFormat: 0,
       scale: 1,
       brightness: 1,
-      showBg: true
+      showBg: true,
+      fs: 22,
+      showSecond: true
     })
+    const zeroNum = (n) => {
+      return n<10 ? '0'+n : n
+    }
+    const formatNum = (n) => {
+      if(data.hourFormat < 2){
+        return n
+      }else{
+        return zeroNum(n)
+      }
+    }
     const gettimer = () => {
       let t = new Date()
       let h = t.getHours()
@@ -45,14 +57,13 @@ export default {
     }
     let timer = setInterval(() => {
       let res = gettimer()
-      data.num1 = res.h
-      data.num2 = res.m
-      data.num3 = res.s
+      data.num1 = formatNum(res.h)
+      data.num2 = zeroNum(res.m)
+      data.num3 = zeroNum(res.s)
     }, 200);
     const ttt = () => {
-      console.log('设置time1')
-      data.num1++
-      data.ampm = !data.ampm
+      console.log('设置ttt')
+      data.showSecond = !data.showSecond
     }
     return {
       ...toRefs(data),
@@ -75,19 +86,24 @@ body{
   background-color: #000;
 }
 .timer{
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
-  margin-top: calc(50vh - 16.7vw);
+  justify-content: space-between;
+  padding: 0 2vw;
 }
-.timer_inner{
+.timer_inner2{
   box-sizing: border-box;
-  width: 33.3vw;
-  height: 33.3vw;
+  width: 47.6vw;
+  height: 47.6vw;
   padding: 1vw;
-  &:first-child{
-    padding-left: 2vw;
-  }
-  &:last-child{
-    padding-right: 2vw;
-  }
+  font-size: 28vw;
+}
+.timer_inner3{
+  box-sizing: border-box;
+  width: 30.8vw;
+  height: 30.8vw;
+  font-size: 22vw;
 }
 </style>

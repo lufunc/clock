@@ -32,16 +32,16 @@ export default {
     let timeout
     watchEffect(()=>{
       console.log('watchEffect',props.num,props.ampm)
-      let n = props.num
-      data.val = n
-      data.ap = getap(props.ampm, n)
+      let temp = getap(props.ampm, props.num)
+      data.val = temp.t
+      data.ap = temp.ap
       data.flipshow = true
       setTimeout(() => {
         data.flipping = true
         clearTimeout(timeout)
         timeout = setTimeout(() => {
-          data.tempVal = n
-          data.tempAp = data.ap
+          data.tempVal = temp.t
+          data.tempAp = temp.ap
           data.flipshow = false
           data.flipping = false
         }, 600);
