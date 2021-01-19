@@ -2,7 +2,7 @@
   <div class="halfClock">
     <div :class="['half_inner',btmpart?'btmpart':'']">
       <div class="num">{{num}}</div>
-      <div class="blackLine"></div>
+      <div class="blackLine" :style="{'height':lineWidth}"></div>
       <div :class="['ampm',ampm==='AM'?'am':'pm']">{{ampm}}</div>
     </div>
   </div>
@@ -11,6 +11,9 @@
 <script>
 export default {
   props: {
+    lineWidth: {
+      default: '4px'
+    },
     btmpart: {
       default: false
     },
@@ -52,7 +55,6 @@ export default {
   top: 50%;
   transform: translateY(-50%);
   width: 100%;
-  height: 0.55vw;
   background-color: #000;
 }
 .ampm{

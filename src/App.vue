@@ -1,15 +1,9 @@
 <template>
   <div class="bg">
     <div class="timer">
-      <div :class="[showSecond?'timer_inner3':'timer_inner2']">
-        <clock :num="num1" :ampm="hourFormat === 0"></clock>
-      </div>
-      <div :class="[showSecond?'timer_inner3':'timer_inner2']">
-        <clock :num="num2"></clock>
-      </div>
-      <div v-if="showSecond" :class="[showSecond?'timer_inner3':'timer_inner2']">
-        <clock :num="num3"></clock>
-      </div>
+      <clock :num="num1" :ampm="hourFormat === 0" :class="[showSecond?'timer_inner3':'timer_inner2']"></clock>
+      <clock :num="num2" :class="[showSecond?'timer_inner3':'timer_inner2']"></clock>
+      <clock :num="num3" v-if="showSecond" :class="[showSecond?'timer_inner3':'timer_inner2']"></clock>
     </div>
     <div class="set_box">
       <div class="set_box_item">
@@ -119,23 +113,20 @@ ul{
   top: 50%;
   transform: translateY(-50%);
   display: flex;
-  justify-content: space-between;
-  padding: 0 2vw;
+  justify-content: space-evenly;
 }
 .timer_inner2{
-  box-sizing: border-box;
-  width: 47.6vw;
-  height: 47.6vw;
-  padding: 1vw;
+  width: 47.5vw;
+  height: 47.5vw;
   font-size: 34vw;
 }
 .timer_inner3{
-  box-sizing: border-box;
-  width: 30.8vw;
-  height: 30.8vw;
+  width: 30vw;
+  height: 30vw;
   font-size: 22vw;
 }
 .set_box{
+  display: none;
   position: fixed;
   bottom: 8%;
   right: 8%;

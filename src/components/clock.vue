@@ -17,7 +17,9 @@ export default {
     num: {
       default: 0
     },
-    ampm: Boolean
+    ampm: {
+      default: false
+    }
   },
   setup (props) {
     const data = reactive({
@@ -57,8 +59,9 @@ export default {
 <style lang="less">
 .clock{
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 240px;
+  height: 240px;
+  font-size: 160px;
 }
 .page_front,.page_back{
   position: absolute;

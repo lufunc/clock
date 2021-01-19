@@ -5,7 +5,7 @@ const getampm = (e, n) => {
     if(t<12){
       ap = 'AM'
     }
-    else{
+    else if(t<24){
       ap = 'PM'
       t-=12
     }
