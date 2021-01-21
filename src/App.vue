@@ -1,6 +1,6 @@
 <template>
   <div class="bg">
-    <div class="timer">
+    <div class="timer" :style="{'transform': 'translateY(-50%) scale('+(scale/100)+')','filter': 'brightness('+brightness/100+')'}">
       <clock :num="num1" :ampm="hourFormat === 0" :class="[showSecond?'timer_inner3':'timer_inner2']"></clock>
       <clock :num="num2" :class="[showSecond?'timer_inner3':'timer_inner2']"></clock>
       <clock :num="num3" v-if="showSecond" :class="[showSecond?'timer_inner3':'timer_inner2']"></clock>
@@ -10,23 +10,41 @@
         <ul class="set_box_inner">
           <li>
             <div>Hour Format:</div>
-            <div>选择器</div>
+            <ul class="pickItem">
+              <li @click="hourFormat=0" :class="{'pick-active':hourFormat===0}">12h</li>
+              <li @click="hourFormat=1" :class="{'pick-active':hourFormat===1}">24h</li>
+              <li @click="hourFormat=2" :class="{'pick-active':hourFormat===2}">024h</li>
+            </ul>
           </li>
           <li>
-            <div>Scale:</div>
-            <div>进度条</div>
+            <div style="margin-right: 6px;">Scale:</div>
+            <slider style="margin: 0 10px;" v-model="scale"></slider>
+            <div style="width:94px;">数值{{scale}}</div>
           </li>
           <li>
             <div>Brightn:</div>
-            <div>进度条</div>
+            <slider style="margin: 0 10px;" v-model="brightness"></slider>
+            <div style="width:94px;">数值{{brightness}}</div>
           </li>
           <li>
             <div>Show</div>
-            <input type="checkbox" name="Background" id="Background" style="vertical-align: middle;">
-            <span>Background</span>
+            <input type="checkbox" v-model="showBg" style="vertical-align: middle;">
+            <span>Background---</span>
+            <div>{{showBg}}</div>
+          </li>
+          <li>
+            <span>Timer</span>
+            <span>10hours</span>
+            <span>24min</span>
+            <button>go</button>
+          </li>
+          <li>
+            <div>Stopwatch</div>
+            <button>Reset/Lap</button>
+            <button>Start/Stop</button>
           </li>
         </ul>
-        <footer>@lupass 2021</footer>
+        <footer>@lufunc 2021</footer>
         <div>OK</div>
       </div>
       <img @click="ttt" class="setting" :src="pic_setting" alt="">
@@ -38,8 +56,9 @@
 import { reactive, toRefs, computed } from 'vue'
 import myPic from './assets/pic'
 import clock from './components/clock.vue'
+import slider from './components/slider'
 export default {
-  components: { clock },
+  components: { clock,slider },
   setup () {
     const data = reactive({
       pic_setting: myPic.pic_setting,
@@ -50,8 +69,8 @@ export default {
       // config
       // 12h 24h 024h
       hourFormat: 0,
-      scale: 1,
-      brightness: 1,
+      scale: 50,
+      brightness: 50,
       showBg: true,
       fs: 22,
       showSecond: true
@@ -80,8 +99,10 @@ export default {
       data.num3 = zeroNum(res.s)
     }, 200);
     const ttt = () => {
-      console.log('设置ttt',myPic)
-      data.showSecond = !data.showSecond
+      console.log('设置ttt')
+      // data.showSecond = !data.showSecond
+      data.hourFormat++
+      if(data.hourFormat>2) data.hourFormat=0
     }
     return {
       ...toRefs(data),
@@ -100,6 +121,7 @@ ul{
   padding: 0;
   list-style-type: none;
 }
+button { border:none; padding:0;margin:0;outline-style:none; }
 .bg{
   position: fixed;
   top: 0;
@@ -111,7 +133,6 @@ ul{
 .timer{
   position: relative;
   top: 50%;
-  transform: translateY(-50%);
   display: flex;
   justify-content: space-evenly;
 }
@@ -126,7 +147,7 @@ ul{
   font-size: 22vw;
 }
 .set_box{
-  display: none;
+  // display: none;
   position: fixed;
   bottom: 8%;
   right: 8%;
@@ -160,8 +181,14 @@ ul{
     transform: translateY(50%) rotateZ(45deg);
   }
 }
-.set_box_inner>li>div{
-  display: inline-block;
+.set_box_inner{
+  padding: 20px;
+  color: #fff;
+  &>li{
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
 }
 .setting{
   position: absolute;
@@ -174,5 +201,31 @@ ul{
   &:hover{
     transform: rotateZ(120deg);
   }
+}
+.pickItem{
+  display: flex;
+  margin-left: 12px;
+  text-align: center;
+  border-radius: 6px;
+  cursor: pointer;
+  &>li{
+    width: 60px;
+    line-height: 24px;
+    border: 1px solid #666;
+    border-right: 0;
+    &:first-child{
+      border-top-left-radius: inherit;
+      border-bottom-left-radius: inherit;
+    }
+    &:last-child{
+      border-right: 1px solid #666;
+      border-top-right-radius: inherit;
+      border-bottom-right-radius: inherit;
+    }
+  }
+}
+.pick-active{
+  color: #333;
+  background-color: #fff;
 }
 </style>
