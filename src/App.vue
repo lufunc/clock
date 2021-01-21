@@ -32,11 +32,12 @@
             <span>Background---</span>
             <div>{{showBg}}</div>
           </li>
-          <li>
+          <li style="position: relative;">
             <span>Timer</span>
             <span>10hours</span>
             <span>24min</span>
             <button>go</button>
+            <timePicker style="position: absolute;bottom: 24px;left: 0;"></timePicker>
           </li>
           <li>
             <div>Stopwatch</div>
@@ -44,8 +45,9 @@
             <button>Start/Stop</button>
           </li>
         </ul>
-        <footer>@lufunc 2021</footer>
-        <div>OK</div>
+        <footer>
+          <a href="http://baidu.com">@lufunc 2021</a>
+        </footer>
       </div>
       <img @click="ttt" class="setting" :src="pic_setting" alt="">
     </div>
@@ -57,8 +59,9 @@ import { reactive, toRefs, computed } from 'vue'
 import myPic from './assets/pic'
 import clock from './components/clock.vue'
 import slider from './components/slider'
+import timePicker from './components/timePicker'
 export default {
-  components: { clock,slider },
+  components: { clock,slider,timePicker },
   setup () {
     const data = reactive({
       pic_setting: myPic.pic_setting,
