@@ -1,25 +1,11 @@
 <template>
   <div class="time-panel">
-    <ul class="time-spinner">
-      <li>
-        <ul class="time-list">
-          <li v-for="(item,index) in h_list" :key="index">{{item}}</li>
-        </ul>
-      </li>
-      <li>
-        <ul class="time-list">
-          <li v-for="(item,index) in m_list" :key="index">{{item}}</li>
-        </ul>
-      </li>
-      <li>
-        <ul class="time-list">
-          <li v-for="(item,index) in s_list" :key="index">{{item}}</li>
-        </ul>
-      </li>
-    </ul>
-    <div class="panel_footer">
-      <button>取消</button>
-      <button>确定</button>
+    <div class="panel-up" @click="subItem">︿</div>
+    <div class="panel-down" @click="addItem">﹀</div>
+    <div class="scroll-box">
+      <ul class="panel-item">
+        <li v-for="(item,index) in temp" :key="index">{{item}}</li>
+      </ul>
     </div>
   </div>
 </template>
@@ -29,84 +15,110 @@ import { reactive, toRefs } from 'vue'
 export default {
   setup(){
     const data = reactive({
-      h:0,
-      m:0,
-      s:0,
-      h_list: [],
-      m_list: [],
-      s_list: []
+      val: 0,
+      temp: []
     })
-    for(let i=0;i<60;i++){
-      if(i<24) data.h_list.push(i);
-      data.m_list.push(i)
-      data.s_list.push(i)
+    for(let i=0;i<24;i++){
+      data.temp.push(i)
+    }
+    const subItem = (e) => {
+      let el = e.target.parentElement.children[2]
+      let t = el.scrollTop
+      let h = 24
+      let tl = data.temp.length
+      console.log('h', h,tl)
+      for(let i=tl-1;i>=0;i--){
+        if(t > h*i-h/2){
+          console.log('i', i)
+          let x = i -1
+          if(x<0) x=0;
+          el.scrollTop = h*x
+          break
+        }
+      }
+    }
+    const addItem = (e) => {
+      let el = e.target.parentElement.children[2]
+      let t = el.scrollTop
+      let h = 24
+      let tl = data.temp.length
+      console.log('h', h,tl)
+      for(let i=tl-1;i>=0;i--){
+        if(t > h*i-h/2){
+          console.log('i', i)
+          let x = i +1
+          if(x>tl-1) x=tl-1;
+          el.scrollTop = h*x
+          break
+        }
+      }
     }
     return {
-      ...toRefs(data)
+      ...toRefs(data),
+      subItem,
+      addItem
     }
   }
 }
 </script>
 
 <style lang="less">
+@import '../assets/pic';
 .time-panel{
   position: relative;
-  width: 250px;
-  // height: 398px;
-  border: 1px solid #666;
-  border-radius: 12px;
-  background-color: burlywood;
-  &::before{
-    content: "";
-    top: 50%;
-    position: absolute;
-    margin-top: -15px;
-    height: 32px;
-    z-index: -1;
-    left: 0;
-    right: 0;
-    box-sizing: border-box;
-    padding-top: 6px;
-    text-align: left;
-    border-top: 1px solid #e4e7ed;
-    border-bottom: 1px solid #e4e7ed;
-  }
-}
-.time-spinner{
-  width: 100%;
-  &>li{
-    width: 33.3%;
-    display: inline-block;
-    max-height: 190px;
-    overflow-y: scroll;
-  }
-}
-.time-list{
+  background-color: chocolate;
+  // background-image: url(@set_pic);
+  width: 60px;
+  height: 24px;
+  border-radius: 4px;
+  line-height: 24px;
   text-align: center;
-  >li{
-    height: 32px;
-    line-height: 32px;
+  &:hover .panel-up{
+    display: block;
   }
+  &:hover .panel-down{
+    display: block;
+  }
+}
+.panel-up,.panel-down{
+  display: none;
+  position: absolute;
+  left: 50%;
+  width: 100%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  &:hover{
+    display: block;
+  }
+}
+.panel-up{
+  top: -100%;
+  background-image: linear-gradient(0deg, rgba(38, 39, 41,0), rgb(38, 39, 41) 100%);
+}
+.panel-down{
+  bottom: -100%;
+  background-image: linear-gradient(to bottom, rgba(38, 39, 41,0), rgb(38, 39, 41) 100%);
+}
+.scroll-box{
+  height: 48px;
+  margin-top: -12px;
+  overflow-y: scroll;
+  color: #fff;
+  // &::-::-webkit-scrollbar
+  &::-webkit-scrollbar{
+    display: none;
+  }
+}
+.panel-item{
   &::before{
     content: "";
     display: block;
-    width: 100%;
-    height: 80px;
+    height: 12px;
   }
   &::after{
     content: "";
     display: block;
-    width: 100%;
-    height: 80px;
+    height: 12px;
   }
-}
-
-.panel_footer{
-  box-sizing: border-box;
-  border-top: 1px solid #e4e4e4;
-  padding: 4px;
-  height: 36px;
-  line-height: 25px;
-  text-align: right;
 }
 </style>

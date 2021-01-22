@@ -32,12 +32,17 @@
             <span>Background---</span>
             <div>{{showBg}}</div>
           </li>
-          <li style="position: relative;">
+          <li>
             <span>Timer</span>
-            <span>10hours</span>
-            <span>24min</span>
+            <button>5min</button>
+            <button>10min</button>
+            <button>25min</button>
+          </li>
+          <li style="height: 72px;">
+            <span>自定义计时</span>
+            <timePicker></timePicker>
+            <timePicker></timePicker>
             <button>go</button>
-            <timePicker style="position: absolute;bottom: 24px;left: 0;"></timePicker>
           </li>
           <li>
             <div>Stopwatch</div>
@@ -72,8 +77,8 @@ export default {
       // config
       // 12h 24h 024h
       hourFormat: 0,
-      scale: 50,
-      brightness: 50,
+      scale: 100,
+      brightness: 100,
       showBg: true,
       fs: 22,
       showSecond: true
