@@ -1,54 +1,79 @@
 <template>
   <div class="time-panel-box">
     <div class="time-panel">
-      <div class="scroll-box" ref="sb">
+      <div class="scroll-box" ref="sb" @scroll="comfirmNum">
         <ul class="panel-item">
           <li v-for="(item,index) in temp" :key="index">{{item}}</li>
         </ul>
       </div>
-      <div class="panel-up" @click="comfirmNum(-1)">︿</div>
-      <div class="panel-down" @click="comfirmNum(1)">﹀</div>
+      <div class="panel-up" @click="changeNum(-1)">︿</div>
+      <div class="panel-down" @click="changeNum(1)">﹀</div>
     </div>
-    <!-- <div class="panel-mask" style="top: -16px;"></div>
-      <div class="panel-mask" style="bottom: -16px;"></div> -->
   </div>
   
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, onMounted } from 'vue'
 export default {
-  setup(){
+  props: {
+    modelValue: Number,
+    numRange: {
+      default: 12
+    }
+  },
+  setup(props, { emit }){
     const data = reactive({
       val: 0,
       temp: [],
-      sb: null
+      sb: null,
+      timeout: null
     })
-    for(let i=0;i<24;i++){
-      let x = i>9? i : '0'+i
-      data.temp.push(x)
+    // console.log('props.numRange', props.numRange)
+    const init = () => {
+      for(let i=0;i<props.numRange;i++){
+        let x = i>9? i : '0'+i
+        data.temp.push(x)
+      }
     }
-    const comfirmNum = (n) => {
+    init()
+    const throttle = (fn, wait=300) => {
+      data.timeout = null
+      return function(){
+        clearTimeout(data.timeout)
+        data.timeout = setTimeout(() => {
+          fn.apply(this,arguments)
+        }, wait);
+      }
+    }
+    const changeNum = (n) => {
+      if(data.timeout) clearTimeout(data.timeout);
       let e = data.sb
-      // console.log('e', e)
       let t = e.scrollTop
       let h = 24
       let tl = data.temp.length
-      // console.log('h', h,tl)
       for(let i=tl-1;i>=0;i--){
         if(t > h*i-h/2){
-          console.log('i', i)
+          // console.log('i', i)
           let x = i +n
           if(x<0) x=0;
           if(x>tl-1) x=tl-1;
-          console.log('x', x)
+          // console.log('x', x)
           e.scrollTop = h*x
+          emit('update:modelValue',x)
           break
         }
       }
     }
+    const comfirmNum = throttle(()=>{
+      changeNum(0)
+    })
+    onMounted(()=>{
+      data.sb.scrollTop = props.modelValue*24
+    })
     return {
       ...toRefs(data),
+      changeNum,
       comfirmNum
     }
   }
@@ -66,9 +91,9 @@ export default {
 }
 .time-panel{
   position: relative;
-  background-color: chocolate;
+  background-color: #666;
   // background-image: url(@set_pic);
-  width: 60px;
+  width: 48px;
   height: 24px;
   border-radius: 4px;
   line-height: 24px;
@@ -80,6 +105,7 @@ export default {
   left: 50%;
   width: 100%;
   transform: translateX(-50%);
+  font-weight: 900;
   cursor: pointer;
   &:hover{
     display: block;
@@ -115,11 +141,5 @@ export default {
     display: block;
     height: 16px;
   }
-}
-.panel-mask{
-  position: absolute;
-  width: 100%;
-  background-color: #262729;
-  height: 16px;
 }
 </style>

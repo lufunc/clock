@@ -38,12 +38,13 @@
             <button>10min</button>
             <button>25min</button>
           </li>
-          <li style="height: 72px;">
+          <li style="height: 56px;">
             <span>自定义计时</span>
-            <timePicker></timePicker>
-            <timePicker></timePicker>
-            <timePicker></timePicker>
+            <timePicker :numRange="24" v-model="my_h"></timePicker>
+            <timePicker :numRange="60" v-model="my_m"></timePicker>
+            <timePicker :numRange="60" v-model="my_s"></timePicker>
             <button>go</button>
+            <span>{{'my:'+my_h+' '+my_m+' '+my_s}}</span>
           </li>
           <li>
             <div>Stopwatch</div>
@@ -82,7 +83,10 @@ export default {
       brightness: 100,
       showBg: true,
       fs: 22,
-      showSecond: true
+      showSecond: true,
+      my_h: 1,
+      my_m: 2,
+      my_s: 3
     })
     const zeroNum = (n) => {
       return n<10 ? '0'+n : n

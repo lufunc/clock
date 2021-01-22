@@ -33,7 +33,7 @@ export default {
     })
     let timeout
     watchEffect(()=>{
-      console.log('watchEffect',props.num,props.ampm)
+      // console.log('watchEffect',props.num,props.ampm)
       let temp = getap(props.ampm, props.num)
       data.val = temp.t
       data.ap = temp.ap

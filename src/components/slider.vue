@@ -1,5 +1,5 @@
 <template>
-  <div class="slider" :style="{'height':barHeight}" @mousedown="sliderHandle">
+  <div class="slider" ref="mySlider" :style="{'height':barHeight}" @mousedown="sliderHandle">
     <div class="bar-line-right" :style="{'width':barHeight,'height':lineHeight}"></div>
     <div class="bar-line" :style="{'width': 'calc(100% - '+barHeight+')','height':lineHeight,'background-size':modelValue+'%'}">
       <div class="bar-handle" :style="{'width':barHeight,'height':barHeight,'left':modelValue+'%'}"></div>
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { ref, unref, computed } from 'vue'
+import { ref } from 'vue'
 export default {
 props:{
   modelValue: Number,
@@ -20,10 +20,11 @@ props:{
   }
 },
 setup(props, { emit }){
+  const mySlider = ref(null)
   const sliderHandle = (event) => {
     let x = props.barHeight.match(/(\d+)/)[1]
     x = parseInt(x)
-    let temp = document.getElementsByClassName('slider')[0]
+    let temp = mySlider.value
     let tl = temp.getBoundingClientRect().left
     let tw = temp.offsetWidth
     const numRange = (n) => {
@@ -43,7 +44,8 @@ setup(props, { emit }){
     }
   }
   return {
-    sliderHandle
+    sliderHandle,
+    mySlider
   }
 }
 }
