@@ -42,6 +42,7 @@
             <span>自定义计时</span>
             <timePicker></timePicker>
             <timePicker></timePicker>
+            <timePicker></timePicker>
             <button>go</button>
           </li>
           <li>
