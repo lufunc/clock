@@ -85,6 +85,7 @@ export default {
 .time-panel-box{
   height: 24px;
   padding: 16px 0;
+  margin-right: 4px;
   &:hover .time-panel{
     overflow: visible;
   }

@@ -9,7 +9,7 @@
       <div class="set_box_item">
         <ul class="set_box_inner">
           <li>
-            <div>Hour Format:</div>
+            <div class="setName">Hour Format:</div>
             <ul class="pickItem">
               <li @click="hourFormat=0" :class="{'pick-active':hourFormat===0}">12h</li>
               <li @click="hourFormat=1" :class="{'pick-active':hourFormat===1}">24h</li>
@@ -17,43 +17,53 @@
             </ul>
           </li>
           <li>
-            <div style="margin-right: 6px;">Scale:</div>
-            <slider style="margin: 0 10px;" v-model="scale"></slider>
-            <div style="width:94px;">数值{{scale}}</div>
+            <div class="setName">Scale:</div>
+            <slider v-model="scale"></slider>
+            <div style="width:32px;padding-left: 8px;">{{scale}}</div>
           </li>
           <li>
-            <div>Brightn:</div>
-            <slider style="margin: 0 10px;" v-model="brightness"></slider>
-            <div style="width:94px;">数值{{brightness}}</div>
+            <div class="setName">Brightn:</div>
+            <slider v-model="brightness"></slider>
+            <div style="width:32px;padding-left: 8px;">{{brightness}}</div>
           </li>
           <li>
-            <div>Show</div>
-            <input type="checkbox" v-model="showBg" style="vertical-align: middle;">
+            <div class="setName">Background:</div>
+            <div>
+              <input type="checkbox" v-model="showBg" style="margin: 0;vertical-align: middle;width: 18px;height: 18px;">
+            </div>
             <span>Background---</span>
             <div>{{showBg}}</div>
           </li>
           <li>
-            <span>Timer</span>
-            <button>5min</button>
-            <button>10min</button>
-            <button>25min</button>
+            <div class="setName">Stopwatch:</div>
+            <button class="timerBtn" style="background-color: #666666;color: #fff;">Start</button>
           </li>
-          <li style="height: 56px;">
-            <span>自定义计时</span>
+          <li>
+            <div class="setName">Timer:</div>
+            <button class="timerBtn">
+              <span class="iconTime"></span>
+              <span style="vertical-align: middle;">5m</span>
+            </button>
+            <button class="timerBtn">
+              <span class="iconTime"></span>
+              <span style="vertical-align: middle;">10m</span>
+            </button>
+            <button class="timerBtn">
+              <span class="iconTomato"></span>
+              <span style="vertical-align: middle;">25m</span>
+            </button>
+          </li>
+          <li>
+            <div class="setName">自定义计时:</div>
             <timePicker :numRange="24" v-model="my_h"></timePicker>
             <timePicker :numRange="60" v-model="my_m"></timePicker>
             <timePicker :numRange="60" v-model="my_s"></timePicker>
-            <button>go</button>
-            <span>{{'my:'+my_h+' '+my_m+' '+my_s}}</span>
-          </li>
-          <li>
-            <div>Stopwatch</div>
-            <button>Reset/Lap</button>
-            <button>Start/Stop</button>
+            <button class="timerBtn" style="margin-left: 4px;">go</button>
+            <span style="font-size: 8px;">{{my_h+' '+my_m+' '+my_s}}</span>
           </li>
         </ul>
-        <footer>
-          <a href="http://baidu.com">@lufunc 2021</a>
+        <footer style="margin: -8px 20px 0px;">
+          <a href="http://baidu.com">1.0.0 @lufunc 2021</a>
         </footer>
       </div>
       <img @click="ttt" class="setting" :src="pic_setting" alt="">
@@ -126,6 +136,7 @@ export default {
 </script>
 
 <style lang="less">
+@import './assets/pic.less';
 body{
   margin: 0;
 }
@@ -196,7 +207,9 @@ button { border:none; padding:0;margin:0;outline-style:none; }
 }
 .set_box_inner{
   padding: 20px;
+  padding-bottom: 0px;
   color: #fff;
+  font-size: 18px;
   &>li{
     display: flex;
     align-items: center;
@@ -217,13 +230,14 @@ button { border:none; padding:0;margin:0;outline-style:none; }
 }
 .pickItem{
   display: flex;
-  margin-left: 12px;
   text-align: center;
   border-radius: 6px;
   cursor: pointer;
   &>li{
+    box-sizing: border-box;
     width: 60px;
-    line-height: 24px;
+    height: 24px;
+    line-height: 22px;
     border: 1px solid #666;
     border-right: 0;
     &:first-child{
@@ -240,5 +254,42 @@ button { border:none; padding:0;margin:0;outline-style:none; }
 .pick-active{
   color: #333;
   background-color: #fff;
+}
+.setName{
+  width: 116px;
+  margin-right: 12px;
+  text-align: right;
+}
+.timerBtn{
+  box-sizing: border-box;
+  width: 60px;
+  height: 24px;
+  border-radius: 4px;
+  margin-right: 6px;
+  background-color: #fff;
+  color: #1c1c1c;
+  font-size: 16px;
+  // font-size: 18px;
+  cursor: pointer;
+  &:active{
+    background-color: #ddd;
+  }
+}
+.iconTime{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  background-image: url(@timer);
+  background-size: contain;
+}
+.iconTomato{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-top: -3px;
+  vertical-align: middle;
+  background-image: url(@tomato);
+  background-size: contain;
 }
 </style>

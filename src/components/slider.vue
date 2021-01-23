@@ -54,7 +54,7 @@ setup(props, { emit }){
 <style lang="less">
 .slider{
   position: relative;
-  width: 100%;
+  width: 220px;
   // background-color: chocolate;
   cursor: pointer;
 }
